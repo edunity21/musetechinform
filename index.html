@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0E0E0E">
+<meta name="color-scheme" content="dark">
+<title>음악 산업 탐구 — 수업과 플랫폼 소개</title>
+<meta name="description" content="중학교 3학년 음악 생활화 영역 [9음03-02] 수업과 웹 플랫폼 소개. 순천승평중학교 음악과.">
+
+<meta property="og:title" content="음악 산업 탐구 — 수업과 플랫폼 소개">
+<meta property="og:description" content="열두 분야를 읽고, 하나를 골라 스스로 더 찾아보고, 1분 동안 자기 말로 말합니다.">
+<meta property="og:type" content="website">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231DB954'/%3E%3Ctext x='16' y='23' font-size='18' text-anchor='middle'%3E%F0%9F%8E%A7%3C/text%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+
+<style>
+/* ===========================================================================
+ *  음악 산업 탐구 — 소개 페이지
+ *  inform v1.0.0 (2026-10-31) · 순천승평중학교 음악과
+ *  색과 표지 그라데이션은 학생용 플랫폼(style.css · shared.js)과 같습니다.
+ * ========================================================================= */
+
+:root{
+  --bg:#0E0E0E; --bg-2:#141414;
+  --card:#1A1A1A; --card-2:#212121; --card-3:#282828;
+  --line:#2C2C2C; --line-2:#3A3A3A;
+  --text:#FFFFFF; --muted:#B0B0B0; --dim:#777777;
+  --acc:#1DB954; --acc-in:#06180D;
+  --warn:#F5C518; --rose:#F06292; --sky:#5B7CFA;
+  --r:12px; --r-lg:18px; --r-sm:7px;
+  --maxw:1120px; --bar-h:66px; --rail-h:54px;
+  --ease:cubic-bezier(.3,.7,.2,1);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+html{background:var(--bg)}
+body{
+  height:100vh; height:100dvh; overflow:hidden;
+  background:var(--bg); color:var(--text);
+  font-family:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,
+              system-ui,'Malgun Gothic','Apple SD Gothic Neo',sans-serif;
+  font-size:16px; line-height:1.68; font-weight:400;
+  word-break:keep-all; overflow-wrap:anywhere;
+  -webkit-text-size-adjust:100%; -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4,p,ul,ol{margin:0}
+ul,ol{padding-left:1.1em}
+b,strong{font-weight:700}
+em{font-style:normal;color:var(--acc);font-weight:700}
+
+/* ---------- 뼈대 ---------- */
+.shell{height:100vh;height:100dvh;display:flex;flex-direction:column;min-height:0}
+
+/* 위쪽 — 쪽 번호 띠 */
+.rail{
+  flex:none;height:var(--rail-h);display:flex;align-items:center;gap:14px;
+  padding:0 18px;border-bottom:1px solid var(--line);
+  background:rgba(14,14,14,.92);backdrop-filter:blur(8px);
+}
+.rail .mark{display:flex;align-items:center;gap:9px;flex:none}
+.rail .logo{
+  width:26px;height:26px;border-radius:7px;flex:none;
+  background:linear-gradient(150deg,#1DB954,#0E6B32);
+  display:grid;place-items:center;font-size:.85rem;color:#06180D;font-weight:800;
+}
+.rail .nm{font-weight:800;font-size:.92rem;letter-spacing:-.02em;white-space:nowrap}
+.rail .sep{width:1px;height:18px;background:var(--line-2);flex:none}
+.rail .dots{display:flex;gap:5px;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none;padding:6px 0}
+.rail .dots::-webkit-scrollbar{display:none}
+.dot{
+  flex:none;width:22px;height:22px;border-radius:50%;border:1px solid var(--line-2);
+  background:transparent;color:var(--dim);font:inherit;font-size:.62rem;font-weight:700;
+  display:grid;place-items:center;cursor:pointer;padding:0;
+  transition:background .18s,color .18s,border-color .18s,transform .18s;
+}
+.dot:hover{border-color:var(--acc);color:var(--text)}
+.dot[aria-current="true"]{background:var(--acc);border-color:transparent;color:var(--acc-in);transform:scale(1.12)}
+.rail .tag{
+  flex:none;font-size:.74rem;color:var(--dim);letter-spacing:.04em;
+  white-space:nowrap;text-transform:uppercase;
+}
+
+/* 가운데 — 옆으로 넘어가는 띠 */
+main{flex:1 1 auto;min-height:0;overflow:hidden;position:relative}
+.deck{display:flex;height:100%;transition:transform .42s var(--ease);will-change:transform}
+.pg{
+  flex:0 0 100%;width:100%;height:100%;
+  overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+  padding:30px max(18px,calc((100% - var(--maxw)) / 2)) 44px;
+  transition:opacity .2s linear;
+}
+.pg:not(.on){opacity:.4}
+
+/* 아래쪽 — 넘김 바 */
+.bar{
+  flex:none;position:relative;min-height:var(--bar-h);
+  display:flex;align-items:center;gap:12px;
+  padding:9px 14px calc(9px + env(safe-area-inset-bottom));
+  background:var(--card);border-top:1px solid var(--line);overflow:hidden;
+}
+.bar::before{
+  content:'';position:absolute;left:0;top:0;height:2px;width:var(--pg,8%);
+  background:var(--acc);transition:width .42s var(--ease);
+}
+.bmid{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:1px;text-align:center}
+.bmid .cnt{font-size:.74rem;color:var(--dim);letter-spacing:.03em}
+.bmid .cnt b{color:var(--text);font-weight:800}
+.bmid .ttl{
+  font-size:.9rem;font-weight:700;color:var(--muted);max-width:100%;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.nav{
+  flex:none;display:inline-flex;align-items:center;gap:7px;
+  min-height:44px;padding:0 17px;border-radius:999px;
+  border:1px solid var(--line-2);background:var(--card-2);color:var(--text);
+  font:inherit;font-size:.93rem;font-weight:700;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  transition:background .18s,opacity .18s,transform .18s;
+}
+.nav .ar{font-size:1.05rem;line-height:1}
+.nav:hover:not(:disabled){background:var(--card-3)}
+.nav:active:not(:disabled){transform:scale(.97)}
+.nav:disabled{opacity:.28;cursor:default}
+.nav.next{background:var(--acc);color:var(--acc-in);border-color:transparent}
+.nav.next:hover:not(:disabled){background:var(--acc);filter:brightness(1.08)}
+.nav:focus-visible,.dot:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+
+/* ---------- 쪽 안쪽 공통 ---------- */
+.kick{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--acc);margin-bottom:12px;
+}
+.kick::before{content:'';width:16px;height:2px;background:var(--acc);border-radius:2px}
+h2.hd{font-size:clamp(1.5rem,3.4vw,2.1rem);line-height:1.22;letter-spacing:-.035em;font-weight:800}
+h2.hd .q{color:var(--acc)}
+p.lead{color:var(--muted);font-size:1.02rem;margin-top:12px;max-width:62ch}
+.rule{height:1px;background:var(--line);margin:26px 0}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px 18px 16px}
+.card h3{font-size:1.02rem;font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
+.card p{color:var(--muted);font-size:.94rem}
+
+.cols{display:grid;gap:14px}
+.c2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.c3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.c4{grid-template-columns:repeat(4,minmax(0,1fr))}
+
+/* ---------- 표지 ---------- */
+.cover{
+  display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.9fr);
+  gap:46px;align-items:center;min-height:100%;
+}
+.cover .sup{font-size:.82rem;color:var(--dim);letter-spacing:.06em;margin-bottom:16px}
+.cover h1{
+  font-size:clamp(2.5rem,7vw,4.4rem);line-height:1.04;letter-spacing:-.055em;font-weight:800;
+}
+.cover h1 .g{
+  display:inline-block;padding-bottom:.06em;
+  background:linear-gradient(100deg,#1DB954 10%,#48C9B0 52%,#5B7CFA 95%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+
+/* 표지 오른쪽 — 열두 분야를 음반 벽처럼 */
+.mosaic{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.mosaic .t{
+  aspect-ratio:1;border-radius:var(--r);display:flex;align-items:flex-end;
+  padding:9px 11px;position:relative;overflow:hidden;
+}
+.mosaic .t .n{font-size:1.1rem;font-weight:800;color:rgba(0,0,0,.4);letter-spacing:-.03em}
+.mosaic .t .s{
+  position:absolute;left:11px;right:9px;top:9px;
+  font-size:.62rem;font-weight:800;letter-spacing:-.01em;color:rgba(0,0,0,.52);line-height:1.25;
+}
+.mosaic-cap{grid-column:1/-1;color:var(--dim);font-size:.78rem;margin-top:4px;text-align:center}
+.cover .std{
+  margin-top:20px;display:inline-flex;align-items:flex-start;gap:10px;
+  border-left:3px solid var(--acc);padding:2px 0 2px 14px;max-width:60ch;
+}
+.cover .std .code{font-weight:800;color:var(--acc);white-space:nowrap}
+.cover .std .txt{color:var(--text);font-weight:600}
+.cover .say{margin-top:22px;color:var(--muted);font-size:1.05rem;max-width:56ch;line-height:1.72}
+.nums{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:30px;max-width:560px}
+.num{
+  border:1px solid var(--line);background:var(--card);border-radius:var(--r);
+  padding:11px 15px;
+}
+.num .v{font-size:1.5rem;font-weight:800;letter-spacing:-.04em;line-height:1.1}
+.num .l{font-size:.74rem;color:var(--dim);margin-top:1px}
+.cover .go{margin-top:30px;color:var(--dim);font-size:.86rem}
+.cover .go kbd{
+  display:inline-block;border:1px solid var(--line-2);border-radius:5px;
+  padding:1px 7px;font:inherit;font-size:.8rem;color:var(--muted);background:var(--card-2);
+}
+
+/* ---------- 문제 → 답 ---------- */
+.pair{display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:stretch}
+.pair + .pair{margin-top:14px}
+.pair .pro{
+  background:var(--bg-2);border:1px dashed var(--line-2);border-radius:var(--r);
+  padding:16px 17px;
+}
+.pair .pro .t{font-size:.72rem;font-weight:800;letter-spacing:.1em;color:var(--dim);
+              text-transform:uppercase;margin-bottom:5px}
+.pair .pro p{color:var(--muted);font-size:.95rem}
+.pair .arw{display:grid;place-items:center;color:var(--line-2);font-size:1.3rem}
+.pair .ans{
+  background:linear-gradient(150deg,rgba(29,185,84,.1),rgba(29,185,84,.02));
+  border:1px solid rgba(29,185,84,.3);border-radius:var(--r);padding:16px 17px;
+}
+.pair .ans .t{font-size:.72rem;font-weight:800;letter-spacing:.1em;color:var(--acc);
+              text-transform:uppercase;margin-bottom:5px}
+.pair .ans p{font-size:.95rem;color:#E6F6EC}
+
+/* ---------- 차시 ---------- */
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;counter-reset:s}
+.step{
+  position:relative;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--r);padding:18px 17px 16px;overflow:hidden;
+}
+.step::before{
+  content:'';position:absolute;left:0;top:0;width:100%;height:3px;
+  background:linear-gradient(90deg,var(--c1),var(--c2));
+}
+.step .no{font-size:.73rem;font-weight:800;letter-spacing:.1em;color:var(--c1)}
+.step h3{margin:5px 0 9px;font-size:1.12rem;font-weight:800;letter-spacing:-.025em}
+.step .who{font-size:.73rem;font-weight:800;color:var(--dim);letter-spacing:.06em;
+           margin:12px 0 4px;text-transform:uppercase}
+.step ul{margin:0;padding-left:1.05em;color:var(--muted);font-size:.9rem;line-height:1.6}
+.step li{margin-bottom:3px}
+
+/* ---------- 열두 분야 ---------- */
+.fields{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.fld{
+  position:relative;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--r);overflow:hidden;
+  transition:transform .18s,border-color .18s;
+}
+.fld:hover{transform:translateY(-2px);border-color:var(--line-2)}
+.fld .top{height:52px;display:flex;align-items:flex-end;padding:0 12px 8px}
+.fld .top .n{font-size:1.25rem;font-weight:800;color:rgba(0,0,0,.42);letter-spacing:-.03em}
+.fld .bd{padding:11px 12px 13px}
+.fld .nm{font-weight:800;font-size:.97rem;letter-spacing:-.02em}
+.fld .en{font-size:.66rem;color:var(--dim);letter-spacing:.04em;margin-top:1px;
+         text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fld .one{color:var(--muted);font-size:.84rem;margin-top:7px;line-height:1.52}
+
+/* ---------- 읽을거리 구조 ---------- */
+.anat{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:20px;align-items:start}
+.layer{display:flex;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}
+.layer:last-child{border-bottom:0}
+.layer .ic{
+  flex:none;width:30px;height:30px;border-radius:8px;display:grid;place-items:center;
+  background:var(--card-2);border:1px solid var(--line);font-size:.78rem;font-weight:800;color:var(--acc);
+}
+.layer .nm{font-weight:800;font-size:.95rem}
+.layer .ds{color:var(--muted);font-size:.87rem;margin-top:2px}
+.sample{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden}
+.sample .hd2{
+  padding:16px 18px;background:linear-gradient(150deg,#1DB954,#0E6B32);color:#06180D;
+}
+.sample .hd2 .k{font-size:.68rem;font-weight:800;letter-spacing:.1em;opacity:.65;text-transform:uppercase}
+.sample .hd2 h3{font-size:1.3rem;font-weight:800;letter-spacing:-.03em;margin:3px 0 4px;color:#06180D}
+.sample .hd2 p{font-size:.86rem;font-weight:700;opacity:.72;color:#06180D}
+.sample .bd{padding:15px 18px 17px}
+.sample .q{font-size:.8rem;font-weight:800;color:var(--acc);letter-spacing:.02em}
+.sample .a{color:var(--muted);font-size:.9rem;margin:3px 0 13px;line-height:1.62}
+.sample .a:last-child{margin-bottom:0}
+.chipset{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.chip{
+  font-size:.76rem;font-weight:700;padding:3px 10px;border-radius:999px;
+  background:var(--card-3);border:1px solid var(--line-2);color:var(--muted);
+}
+
+/* ---------- 아홉 문항 ---------- */
+.qs{display:grid;gap:9px}
+.qrow{
+  display:grid;grid-template-columns:34px 1fr auto;gap:13px;align-items:center;
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:12px 15px;
+}
+.qrow .qn{
+  width:34px;height:34px;border-radius:9px;display:grid;place-items:center;
+  background:var(--card-3);font-weight:800;font-size:.9rem;color:var(--muted);
+}
+.qrow .qt{font-weight:700;font-size:.98rem;letter-spacing:-.015em}
+.qrow .qs2{color:var(--dim);font-size:.83rem;margin-top:1px}
+.badge{
+  flex:none;font-size:.72rem;font-weight:800;padding:3px 10px;border-radius:999px;white-space:nowrap;
+}
+.b-sur{background:rgba(91,124,250,.16);color:#9DB2FF;border:1px solid rgba(91,124,250,.3)}
+.b-val{background:rgba(29,185,84,.14);color:#6EE49B;border:1px solid rgba(29,185,84,.3)}
+.b-pre{background:rgba(242,193,78,.14);color:#F2C14E;border:1px solid rgba(242,193,78,.3)}
+.b-non{background:var(--card-3);color:var(--dim);border:1px solid var(--line-2)}
+.qrow.key{border-color:rgba(29,185,84,.45);background:linear-gradient(150deg,rgba(29,185,84,.09),transparent 70%)}
+.qrow.key .qn{background:var(--acc);color:var(--acc-in)}
+/* 넓은 화면에서는 두 줄씩 — 7번만 한 줄을 다 씁니다 */
+@media (min-width:1000px){
+  .qs{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .qrow.key{grid-column:1 / -1}
+}
+.keynote{
+  margin-top:14px;border-left:3px solid var(--acc);padding:4px 0 4px 14px;
+  color:var(--muted);font-size:.93rem;
+}
+.keynote b{color:var(--text)}
+
+/* ---------- 채점 ---------- */
+.score{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.sc{border:1px solid var(--line);border-radius:var(--r);padding:16px 17px;background:var(--card);position:relative;overflow:hidden}
+.sc .v{font-size:2.1rem;font-weight:800;letter-spacing:-.05em;line-height:1}
+.sc .v span{font-size:.95rem;font-weight:700;color:var(--dim);margin-left:2px}
+.sc .l{font-weight:800;margin-top:5px;font-size:.98rem}
+.sc .d{color:var(--muted);font-size:.86rem;margin-top:5px}
+.sc .mini{display:flex;gap:3px;margin-top:11px}
+.sc .mini i{height:4px;border-radius:2px;background:var(--line-2);flex:1}
+.sc.a .mini i:nth-child(-n+8),.sc.b .mini i:nth-child(-n+8){background:var(--acc)}
+.sc.c .mini i:nth-child(-n+4){background:var(--acc)}
+.total{
+  margin-top:14px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px 17px;
+}
+.total .big{font-size:1.5rem;font-weight:800;letter-spacing:-.04em}
+.total .tx{color:var(--muted);font-size:.92rem;flex:1;min-width:220px}
+
+/* ---------- 영상 ---------- */
+.shot{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:16px;display:grid;gap:12px;
+}
+.frame{
+  position:relative;aspect-ratio:4/3;border-radius:var(--r);overflow:hidden;
+  background:linear-gradient(160deg,#242424,#141414);
+  border:1px solid var(--line-2);display:grid;place-items:center;
+}
+.frame .ghost{width:46%;max-width:150px;opacity:.5}
+.frame .clock{
+  position:absolute;top:10px;right:10px;background:rgba(0,0,0,.6);
+  padding:3px 10px;border-radius:999px;font-weight:800;font-size:.86rem;letter-spacing:.02em;
+}
+.frame .rec{
+  position:absolute;top:10px;left:10px;display:flex;align-items:center;gap:6px;
+  background:rgba(224,32,62,.9);padding:3px 11px;border-radius:999px;
+  font-size:.74rem;font-weight:800;
+}
+.frame .rec i{width:7px;height:7px;border-radius:50%;background:#fff;display:block}
+.frame .cue{
+  position:absolute;left:10px;right:10px;bottom:10px;background:rgba(0,0,0,.72);
+  border-radius:9px;padding:9px 12px;font-size:.84rem;color:#E8E8E8;line-height:1.5;
+}
+.frame .cue b{color:var(--acc)}
+.frame .fill{position:absolute;left:0;bottom:0;height:3px;width:62%;background:var(--acc)}
+.vlist{display:grid;gap:9px}
+.vrow{display:flex;gap:11px;align-items:flex-start}
+.vrow .i{
+  flex:none;width:24px;height:24px;border-radius:7px;background:var(--card-2);
+  border:1px solid var(--line);display:grid;place-items:center;
+  font-size:.7rem;font-weight:800;color:var(--acc);margin-top:1px;
+}
+.vrow .t{font-size:.93rem}
+.vrow .t b{font-weight:700}
+.vrow .t span{color:var(--muted)}
+
+/* ---------- 안전장치 ---------- */
+.locks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.lock{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:15px 16px}
+.lock .h{display:flex;align-items:center;gap:9px;margin-bottom:6px}
+.lock .h .ic{
+  width:28px;height:28px;border-radius:8px;flex:none;display:grid;place-items:center;
+  background:var(--card-3);border:1px solid var(--line-2);color:var(--acc);
+}
+.lock .h .ic svg{width:15px;height:15px;display:block}
+.lock .h .nm{font-weight:800;font-size:.97rem;letter-spacing:-.02em}
+.lock p{color:var(--muted);font-size:.89rem}
+.twolock{
+  display:grid;grid-template-columns:120px 1fr 1fr;gap:0;
+  border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-bottom:14px;
+}
+.twolock > div{padding:11px 14px;border-bottom:1px solid var(--line);font-size:.9rem}
+.twolock > div:nth-child(3n+1){color:var(--dim);background:var(--bg-2);font-size:.84rem}
+.twolock > div:nth-child(3n+2){border-left:1px solid var(--line)}
+.twolock > div:nth-child(3n+3){border-left:1px solid var(--line)}
+.twolock > div:nth-last-child(-n+3){border-bottom:0}
+.twolock .hh{font-weight:800;color:var(--text)!important;background:var(--card)!important;font-size:.94rem!important}
+
+/* ---------- 교사 화면 ---------- */
+.tabs-demo{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.tabs-demo span{
+  font-size:.84rem;font-weight:700;padding:6px 13px;border-radius:999px;
+  border:1px solid var(--line-2);color:var(--muted);background:var(--card-2);
+}
+.tabs-demo span.on{background:var(--acc);color:var(--acc-in);border-color:transparent}
+
+/* ---------- 만든 구조 ---------- */
+.stack{display:grid;gap:10px}
+.sbox{
+  border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;background:var(--card);
+  display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;
+}
+.sbox .tagn{
+  font-size:.7rem;font-weight:800;letter-spacing:.06em;white-space:nowrap;
+  background:rgba(29,185,84,.13);border:1px solid rgba(29,185,84,.32);color:#6EE49B;
+  border-radius:999px;padding:3px 11px;margin-top:2px;
+  min-width:62px;text-align:center;
+}
+.sbox .nm{font-weight:800;font-size:.98rem}
+.sbox .ds{color:var(--muted);font-size:.88rem;margin-top:3px}
+.sbox code{
+  background:var(--card-3);border:1px solid var(--line-2);border-radius:5px;
+  padding:1px 6px;font-size:.84em;color:#9DE8B8;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+.down{display:grid;place-items:center;color:var(--line-2);font-size:1.1rem;line-height:1}
+
+/* ---------- 맺음 ---------- */
+.end{display:flex;flex-direction:column;justify-content:center;min-height:100%}
+.end .big{font-size:clamp(1.6rem,4.4vw,2.6rem);line-height:1.22;letter-spacing:-.04em;font-weight:800;max-width:20ch}
+.end .big .g{
+  background:linear-gradient(100deg,#1DB954,#48C9B0);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.sign{margin-top:28px;border-top:1px solid var(--line);padding-top:18px;color:var(--dim);font-size:.88rem}
+.sign .who{color:var(--text);font-weight:700;font-size:.98rem}
+.sign .ln{margin-top:3px}
+
+/* ---------- 좁은 화면 ---------- */
+@media (max-width:1040px){
+  .cover{grid-template-columns:1fr;gap:26px;align-content:center}
+  .mosaic{display:none}
+}
+@media (max-width:900px){
+  .c3,.c4,.steps,.score{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .fields{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .anat{grid-template-columns:1fr}
+  .pair{grid-template-columns:1fr}
+  .pair .arw{transform:rotate(90deg);padding:2px 0}
+}
+@media (max-width:620px){
+  body{font-size:15px}
+  .pg{padding:22px 16px 38px}
+  .c2,.c3,.c4,.steps,.score,.locks{grid-template-columns:1fr}
+  .fields{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .twolock{grid-template-columns:86px 1fr 1fr}
+  .twolock > div{padding:9px 10px;font-size:.84rem}
+  .qrow{grid-template-columns:30px 1fr;row-gap:7px}
+  .qrow .badge{grid-column:2}
+  .qrow .qn{width:30px;height:30px}
+  .rail .nm{display:none}
+  .rail .tag{display:none}
+  .rail .sep:last-of-type{display:none}
+  .rail{gap:10px;padding:0 12px}
+  .sbox{grid-template-columns:1fr;gap:9px}
+  .sbox .tagn{justify-self:start}
+}
+@media (max-width:420px){
+  .nav .tx{display:none}
+  .nav{padding:0 13px}
+  .nav .ar{font-size:1.25rem}
+  /* 분야 카드는 두 줄로 두고, 영문 이름만 덜어 냅니다 */
+  .fld .en{display:none}
+  .fld .top{height:44px}
+  .fld .bd{padding:9px 10px 11px}
+  .fld .nm{font-size:.9rem}
+  .fld .one{font-size:.8rem;margin-top:5px}
+  .nums{gap:8px}
+  .num{padding:9px 11px}
+  .num .v{font-size:1.3rem}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .deck{transition:none}
+  .pg{transition:none}
+  .bar::before{transition:none}
+}
+
+/* ---------- 인쇄 — 열두 쪽을 차례로 ---------- */
+@media print{
+  body{height:auto;overflow:visible;background:#fff;color:#000;font-size:10.5pt}
+  .shell{height:auto;display:block}
+  .rail,.bar{display:none!important}
+  main{overflow:visible}
+  .deck{display:block!important;transform:none!important;transition:none!important}
+  .pg{
+    height:auto!important;overflow:visible!important;
+    opacity:1!important;transition:none!important;
+    padding:0 0 18pt!important;page-break-after:always;
+  }
+  .card,.fld,.step,.qrow,.sc,.lock,.sbox{
+    background:#fff!important;border:1px solid #999!important;page-break-inside:avoid;
+  }
+  .cover h1 .g,.end .big .g{color:#1DB954!important;-webkit-text-fill-color:#1DB954}
+  p.lead,.card p,.fld .one,.step ul,.lock p,.sbox .ds{color:#333!important}
+}
+</style>
+</head>
+
+<body>
+<div class="shell">
+
+  <!-- ===================== 위쪽 쪽 번호 띠 ===================== -->
+  <header class="rail">
+    <div class="mark"><div class="logo">♪</div><div class="nm">음악 산업 탐구</div></div>
+    <div class="sep" aria-hidden="true"></div>
+    <nav class="dots" id="dots" aria-label="쪽 고르기"></nav>
+    <div class="sep" aria-hidden="true"></div>
+    <div class="tag">순천승평중 음악과</div>
+  </header>
+
+  <!-- ===================== 열두 쪽 ===================== -->
+  <main>
+  <div class="deck" id="deck">
+
+    <!-- ① 표지 ------------------------------------------------------- -->
+    <section class="pg on" data-t="표지" aria-label="표지">
+      <div class="cover">
+       <div class="cv-text">
+        <div class="sup">중학교 3학년 음악 · 생활화 영역</div>
+        <h1>음악 산업<br><span class="g">탐구</span></h1>
+
+        <div class="std">
+          <span class="code">[9음03-02]</span>
+          <span class="txt">음악과 관련된 산업에 대해 조사하여 발표한다</span>
+        </div>
+
+        <p class="say">열두 분야를 읽고, 그 가운데 하나를 골라 <b>스스로 더 찾아보고</b>,
+          1분 동안 자기 말로 말합니다. 태블릿 한 대로 세 차시가 돌아갑니다.</p>
+
+        <div class="nums">
+          <div class="num"><div class="v">12</div><div class="l">산업 분야</div></div>
+          <div class="num"><div class="v">47</div><div class="l">직업</div></div>
+          <div class="num"><div class="v">9</div><div class="l">활동지 문항</div></div>
+          <div class="num"><div class="v">3</div><div class="l">차시</div></div>
+          <div class="num"><div class="v">20<span>점</span></div><div class="l">배점</div></div>
+          <div class="num"><div class="v">265<span>명</span></div><div class="l">9개 학급</div></div>
+        </div>
+
+        <p class="go">오른쪽 아래 <kbd>다음 →</kbd> 를 누르면 다음 쪽으로 넘어갑니다.
+          키보드 <kbd>←</kbd> <kbd>→</kbd> 나 손가락으로 밀어도 됩니다.</p>
+       </div>
+
+       <div class="mosaic" id="mosaic" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <!-- ② 왜 이렇게 ---------------------------------------------------- -->
+    <section class="pg" data-t="왜 이렇게 만들었나" aria-label="왜 이렇게 만들었나">
+      <div class="kick">왜 이렇게 만들었나</div>
+      <h2 class="hd">생활화 영역에서 늘 걸리던<br>세 가지가 있었습니다</h2>
+      <p class="lead">수업을 바꾸는 대신 <b>환경을 바꾸면</b> 풀리는 문제였습니다.
+        플랫폼은 그 환경을 만들기 위한 도구입니다.</p>
+      <div class="rule"></div>
+
+      <div class="pair">
+        <div class="pro">
+          <div class="t">걸리던 것</div>
+          <p>“조사해 오세요”라고 하면 검색 결과 첫 줄이 그대로 옮겨 적힙니다.
+            무엇을 찾아야 할지 모르는 학생일수록 더 그렇습니다.</p>
+        </div>
+        <div class="arw" aria-hidden="true">→</div>
+        <div class="ans">
+          <div class="t">이렇게 바꿨습니다</div>
+          <p><em>읽을거리를 먼저 줍니다.</em> 열두 분야를 사람이 쓴 글로 읽고 출발합니다.
+            활동지에는 “여기 있는 글을 옮겨 적는 것은 조사가 아닙니다”라고 적어 두었습니다.
+            읽은 것은 <b>출발점</b>이고, 적는 것은 <b>스스로 더 찾은 것</b>입니다.</p>
+        </div>
+      </div>
+
+      <div class="pair">
+        <div class="pro">
+          <div class="t">걸리던 것</div>
+          <p>과제형 수행평가는 할 수 없습니다. 그런데 수업 시간 안에 조사까지 끝내기에는
+            시간이 모자랍니다.</p>
+        </div>
+        <div class="arw" aria-hidden="true">→</div>
+        <div class="ans">
+          <div class="t">이렇게 바꿨습니다</div>
+          <p><em>수업 시간에만 저장됩니다.</em> 선생님이 입장을 열어 둔 동안에만 서버에 쌓이고,
+            닫으면 멈춥니다. 집에서 이어 쓴 내용은 어디에도 남지 않습니다.
+            열고 닫는 것은 교사 화면의 단추 하나입니다.</p>
+        </div>
+      </div>
+
+      <div class="pair">
+        <div class="pro">
+          <div class="t">걸리던 것</div>
+          <p>265명이 교실 앞에 나와 1분씩 발표하면 여섯 시간이 넘습니다.
+            뒤로 갈수록 듣는 사람도 지칩니다.</p>
+        </div>
+        <div class="arw" aria-hidden="true">→</div>
+        <div class="ans">
+          <div class="t">이렇게 바꿨습니다</div>
+          <p><em>각자 태블릿으로 찍습니다.</em> 한 시간을 둘로 나눠 앞에서 찍고,
+            뒤에서 함께 봅니다. 마음에 들 때까지 다시 찍을 수 있어
+            말하기를 어려워하는 학생도 자기 몫을 냅니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ③ 세 차시 ------------------------------------------------------ -->
+    <section class="pg" data-t="세 차시" aria-label="세 차시">
+      <div class="kick">수업 운영</div>
+      <h2 class="hd">세 차시로 끝납니다</h2>
+      <p class="lead">학생은 자기 태블릿에서, 선생님은 교사 화면의 단추로.
+        차시마다 누를 단추가 정해져 있습니다.</p>
+      <div class="rule"></div>
+
+      <div class="steps">
+        <div class="step" style="--c1:#1DB954;--c2:#0E6B32">
+          <div class="no">1차시</div>
+          <h3>분야 정하기</h3>
+          <p style="color:var(--muted);font-size:.92rem">열두 분야를 둘러보고 하나를 고릅니다.
+            고른 까닭까지 적으면 1차시는 끝입니다.</p>
+          <div class="who">학생</div>
+          <ul>
+            <li>카드를 눌러 분야를 읽어 봅니다</li>
+            <li>「살펴본 곳 / 아직 안 본 곳」으로 걸러 봅니다</li>
+            <li>1·2번 문항을 적습니다</li>
+          </ul>
+          <div class="who">교사</div>
+          <ul><li>[수업 시작] — 50분 입장 허용, 제출은 닫힘</li>
+              <li>정리 때 [수업 종료]</li></ul>
+        </div>
+
+        <div class="step" style="--c1:#5B7CFA;--c2:#26307A">
+          <div class="no">2차시</div>
+          <h3>조사하고 제출</h3>
+          <p style="color:var(--muted);font-size:.92rem">읽은 것을 출발점 삼아 스스로 더 찾고,
+            아홉 문항을 채워 냅니다.</p>
+          <div class="who">학생</div>
+          <ul>
+            <li>3~8번을 자기 말로 적습니다</li>
+            <li>조사한 곳 두 군데 이상을 밝힙니다</li>
+            <li>9번 — 1분 동안 말할 세 문장</li>
+          </ul>
+          <div class="who">교사</div>
+          <ul><li>[수업 시작] → [제출 열기] 25분</li>
+              <li>[제출 닫기] → 미제출 명단 확인 → [수업 종료]</li></ul>
+        </div>
+
+        <div class="step" style="--c1:#F2C14E;--c2:#8A6416">
+          <div class="no">3차시</div>
+          <h3>찍고 함께 보기</h3>
+          <p style="color:var(--muted);font-size:.92rem">한 시간을 둘로 나눕니다.
+            앞은 각자 찍고, 뒤는 교실에서 함께 봅니다.</p>
+          <div class="who">학생</div>
+          <ul>
+            <li>앞 20분 — 각자 1분 발표를 찍어 냅니다</li>
+            <li>뒤 20분 — 친구 발표를 보며 동료 평가</li>
+          </ul>
+          <div class="who">교사</div>
+          <ul><li>[수업 시작] — 이때부터 카메라가 켜집니다</li>
+              <li>[발표 영상] 탭 → [첫 번째부터 틀기] → [다음 발표자 →]</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ④ 열두 분야 ---------------------------------------------------- -->
+    <section class="pg" data-t="열두 분야" aria-label="열두 분야">
+      <div class="kick">읽을거리</div>
+      <h2 class="hd">열두 분야, 마흔일곱 가지 직업</h2>
+      <p class="lead">무대 위가 아니라 <b>무대 뒤에서 음악으로 먹고사는 사람들</b>을 모았습니다.
+        연주자가 되지 않아도 음악 곁에서 일할 수 있다는 것을 먼저 보여 주기 위해서입니다.</p>
+      <div class="rule"></div>
+      <div class="fields" id="fields"></div>
+    </section>
+
+    <!-- ⑤ 한 분야의 속 ------------------------------------------------- -->
+    <section class="pg" data-t="한 분야가 담은 것" aria-label="한 분야가 담은 것">
+      <div class="kick">읽을거리의 구조</div>
+      <h2 class="hd">분야마다 여섯 겹으로<br>같은 자리에 놓여 있습니다</h2>
+      <p class="lead">어느 분야를 열어도 찾는 것이 같은 자리에 있습니다.
+        학생이 길을 잃지 않고, 활동지 문항과도 하나씩 맞물립니다.</p>
+      <div class="rule"></div>
+
+      <div class="anat">
+        <div>
+          <div class="layer"><div class="ic">1</div>
+            <div><div class="nm">하는 일</div>
+              <div class="ds">무엇을 만들고 누구에게 전하는지. 네 문단 안팎의 읽을거리 → <b>3번 문항</b></div></div></div>
+          <div class="layer"><div class="ic">2</div>
+            <div><div class="nm">일의 흐름</div>
+              <div class="ds">처음부터 끝까지 다섯~일곱 단계로. 산업을 하나의 과정으로 보게 합니다</div></div></div>
+          <div class="layer"><div class="ic">3</div>
+            <div><div class="nm">이런 직업이 있다</div>
+              <div class="ds">직업 이름 · 하는 일 · 필요한 역량 → <b>4번 문항</b></div></div></div>
+          <div class="layer"><div class="ic">4</div>
+            <div><div class="nm">음악이 없다면</div>
+              <div class="ds">질문을 뒤집어 값어치를 생각하게 합니다 → <b>6·7번 문항</b></div></div></div>
+          <div class="layer"><div class="ic">5</div>
+            <div><div class="nm">우리나라에서는</div>
+              <div class="ds">학생이 이름을 들어 본 적 있는 곳으로 연결합니다</div></div></div>
+          <div class="layer"><div class="ic">6</div>
+            <div><div class="nm">낱말 풀이 · 관련 학과</div>
+              <div class="ds">찾아보다 막히는 말을 미리 풀어 두고, 진로까지 이어 줍니다</div></div></div>
+        </div>
+
+        <div class="sample">
+          <div class="hd2">
+            <div class="k">01 · Music Distribution &amp; Streaming</div>
+            <h3>음원 유통·스트리밍</h3>
+            <p>완성된 음악을 세상 사람들이 들을 수 있는 곳으로 옮겨 놓는 일.</p>
+          </div>
+          <div class="bd">
+            <div class="q">하는 일 가운데 한 대목</div>
+            <p class="a">“이 일의 절반은 뜻밖에도 <b>글자를 정확히 적는 일</b>입니다. 곡 제목, 작곡가,
+              발매일, 저작권자를 정해진 형식에 맞춰 넣습니다. 여기서 이름 하나를 잘못 적으면
+              그 곡으로 번 돈이 엉뚱한 사람에게 가거나, 아무에게도 가지 않고 묶여 버립니다.”</p>
+            <div class="q">음악이 없다면</div>
+            <p class="a">“옮길 것 자체가 없어집니다. 그런데 질문을 뒤집어 보면 더 흥미로워집니다.
+              <b>유통이 없으면 음악은 어떻게 될까요?</b> 만든 사람의 방 안에만 머물게 됩니다.”</p>
+            <div class="q">이런 직업이 있다</div>
+            <div class="chipset">
+              <span class="chip">음원 유통 담당자</span>
+              <span class="chip">플랫폼 기획자 (MD)</span>
+              <span class="chip">음악 데이터 분석가</span>
+              <span class="chip">메타데이터 관리자</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑥ 아홉 문항 ---------------------------------------------------- -->
+    <section class="pg" data-t="활동지 아홉 문항" aria-label="활동지 아홉 문항">
+      <div class="kick">활동지</div>
+      <h2 class="hd">아홉 문항, 길게 쓴다고<br>점수가 오르지 않습니다</h2>
+      <p class="lead">문항마다 <b>최소 글자 수</b>와 <b>작성 도움말</b>이 붙어 있습니다.
+        자동 저장되고, 기기가 바뀌어도 이어서 씁니다.</p>
+      <div class="rule"></div>
+
+      <div class="qs" id="qs"></div>
+
+      <div class="keynote">
+        <b>7번이 상과 중을 가릅니다.</b> 조사한 것을 옮겨 적는 문항이 아니라,
+        음악이 그 산업에서 <b>무엇을 하고 있는지</b> 스스로 생각해야 답할 수 있는 문항입니다.
+        아는 만큼이 아니라 생각한 만큼이 나옵니다.
+      </div>
+    </section>
+
+    <!-- ⑦ 채점 --------------------------------------------------------- -->
+    <section class="pg" data-t="채점" aria-label="채점">
+      <div class="kick">평가</div>
+      <h2 class="hd">20점을 셋으로 나눕니다</h2>
+      <p class="lead">아홉 문항이 스프레드시트에 <b>열로 펼쳐져</b> 쌓입니다.
+        제출 시트를 열면 그대로 채점표가 됩니다.</p>
+      <div class="rule"></div>
+
+      <div class="score">
+        <div class="sc a">
+          <div class="v">8<span>점</span></div>
+          <div class="l">산업 조사</div>
+          <div class="d">3·4·5번 — 무엇을 하는 곳인지, 어떤 직업이 있는지,
+            어디서 찾았는지</div>
+          <div class="mini"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <div class="sc b">
+          <div class="v">8<span>점</span></div>
+          <div class="l">음악의 활용 가치</div>
+          <div class="d">6·7·8번 — 어떤 장면에 쓰이는지, 없다면 무엇이 사라지는지,
+            나와 어떻게 닿는지</div>
+          <div class="mini"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <div class="sc c">
+          <div class="v">4<span>점</span></div>
+          <div class="l">발표</div>
+          <div class="d">9번과 1분 발표 영상 — 세 문장으로 간추려
+            자기 말로 말하는가</div>
+          <div class="mini"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+      </div>
+
+      <div class="total">
+        <div class="big">20점</div>
+        <div class="tx">채점 기준은 학생 화면 맨 위에도 그대로 붙어 있습니다.
+          무엇으로 점수가 매겨지는지 학생이 처음부터 알고 씁니다.</div>
+      </div>
+
+      <div class="cols c2" style="margin-top:14px">
+        <div class="card">
+          <h3>동료 평가는 점수가 아닙니다</h3>
+          <p>3차시에 친구 발표를 보며 적지만 <b>성적에 반영되지 않고</b>,
+            발표자에게도 보이지 않습니다. 잘 듣기 위한 장치입니다.</p>
+        </div>
+        <div class="card">
+          <h3>미제출자가 바로 보입니다</h3>
+          <p>작성 중인 내용은 학생당 한 줄씩 임시저장 시트에 덮어쓰기로 쌓입니다.
+            제출 현황 탭에서 <b>누가 어디까지 썼는지</b> 수업 중에 보입니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑧ 1분 발표 영상 ------------------------------------------------ -->
+    <section class="pg" data-t="1분 발표 영상" aria-label="1분 발표 영상">
+      <div class="kick">발표</div>
+      <h2 class="hd">앞에 나오는 대신<br>태블릿으로 찍습니다</h2>
+      <p class="lead">카메라 앱으로 나가지 않습니다. <b>화면 안에서 바로 찍고 바로 냅니다.</b>
+        파일을 찾아 올리다가 수업이 끝나는 일이 없습니다.</p>
+      <div class="rule"></div>
+
+      <div class="cols c2">
+        <div class="shot">
+          <div class="frame">
+            <svg class="ghost" viewBox="0 0 120 120" fill="none" stroke="#6E6E6E" stroke-width="3"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="60" cy="42" r="21"/>
+              <path d="M22 104c0-21 17-32 38-32s38 11 38 32"/>
+            </svg>
+            <div class="rec"><i></i>녹화 중</div>
+            <div class="clock">00:23</div>
+            <div class="cue"><b>②</b> 게임에서 보스가 나타날 때 음악이 빨라지면서
+              손에 힘이 들어갑니다.</div>
+            <div class="fill"></div>
+          </div>
+          <p style="color:var(--dim);font-size:.82rem;margin:0">
+            화면 아래에 9번에 적은 세 문장이 떠 있습니다. 원고를 손에 들지 않아도 됩니다.</p>
+        </div>
+
+        <div class="vlist">
+          <div class="vrow"><div class="i">1</div><div class="t">
+            <b>60초가 되면 저절로 멈춥니다.</b>
+            <span>시간을 재지 않아도 1분이 지켜집니다.</span></div></div>
+          <div class="vrow"><div class="i">2</div><div class="t">
+            <b>마음에 들 때까지 다시 찍습니다.</b>
+            <span>교실 앞에서는 한 번뿐이지만 여기서는 몇 번이든 괜찮습니다.</span></div></div>
+          <div class="vrow"><div class="i">3</div><div class="t">
+            <b>원고를 화면 아래에 띄워 줍니다.</b>
+            <span>9번에 적은 세 문장을 그대로 불러옵니다. 켜고 끌 수 있습니다.</span></div></div>
+          <div class="vrow"><div class="i">4</div><div class="t">
+            <b>거울처럼 뒤집어 볼 수 있습니다.</b>
+            <span>셀카처럼 보이게 할지 학생이 직접 고릅니다.</span></div></div>
+          <div class="vrow"><div class="i">5</div><div class="t">
+            <b>1분에 4MB 안팎입니다.</b>
+            <span>화질을 일부러 낮췄습니다. 서른 명이 한꺼번에 올려도 학교 와이파이가 버팁니다.</span></div></div>
+          <div class="vrow"><div class="i">6</div><div class="t">
+            <b>교사 드라이브에만 모입니다.</b>
+            <span>학생끼리는 서로 볼 수 없고, 성적이 확정되면 한 번에 지웁니다.</span></div></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:14px">
+        <h3>얼굴과 목소리가 담기는 자료입니다</h3>
+        <p>수집 목적은 생활화 영역 수행평가 발표 채점 하나뿐이고, 보관은 담당 교사의 학교 계정
+          드라이브입니다. 영상은 <b>수업 시간에만</b> 찍히고 보내집니다 —
+          집에서는 아무것도 올라가지 않습니다. 학기 초 동의서에
+          「수업 활동 촬영·녹화」가 들어 있는지 먼저 확인하시기 바랍니다.</p>
+      </div>
+    </section>
+
+    <!-- ⑨ 흔들리지 않게 ------------------------------------------------ -->
+    <section class="pg" data-t="평가가 흔들리지 않게" aria-label="평가가 흔들리지 않게">
+      <div class="kick">수행평가 요건</div>
+      <h2 class="hd">열고 닫는 자물쇠가<br>두 개 있습니다</h2>
+      <p class="lead">헷갈리기 쉬운 지점입니다. <b>입장</b>이 닫히면 제출도 함께 닫히지만,
+        그 반대는 아닙니다. “들어와 쓰기만 하고 내지는 않는” 1차시가 있기 때문입니다.</p>
+      <div class="rule"></div>
+
+      <div class="twolock">
+        <div></div><div class="hh">입장</div><div class="hh">제출</div>
+        <div>무엇을 막나</div><div>로그인 자체</div><div>[지금 제출하기]</div>
+        <div>닫히면 학생은</div><div>화면에 들어오지 못함</div><div>들어와 쓸 수는 있으나 못 냄</div>
+        <div>닫히면 서버 저장은</div><div><b>멈춤</b> (기기에는 남음)</div><div>계속됨</div>
+        <div>언제 여나</div><div>수업을 시작할 때</div><div>조사를 시작할 때</div>
+      </div>
+
+      <div class="locks">
+        <div class="lock"><div class="h"><div class="ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+          </div><div class="nm">시계는 서버가 봅니다</div></div>
+          <p>열림과 마감은 전부 서버가 판단합니다. 태블릿 시계를 돌려도 소용이 없습니다.</p></div>
+
+        <div class="lock"><div class="h"><div class="ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M9 4h6v3H9z"/><path d="M15 5.5h2.5A1.5 1.5 0 0 1 19 7v12a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 19V7a1.5 1.5 0 0 1 1.5-1.5H9"/>
+            <path d="M4 20 20 4"/></svg>
+          </div><div class="nm">붙여넣기 금지</div></div>
+          <p>답안 칸에는 Ctrl+V, 길게 눌러 붙여넣기, 끌어다 놓기, 키보드의 클립보드 단추까지 막습니다.
+            검색칸과 로그인칸은 그대로 둡니다.</p></div>
+
+        <div class="lock"><div class="h"><div class="ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2.5" y="6" width="19" height="12" rx="2"/>
+            <path d="M6.5 10h.01M10 10h.01M13.5 10h.01M17 10h.01M8 14h8"/></svg>
+          </div><div class="nm">입력 속도 제한</div></div>
+          <p>1초에 다섯 글자가 넘게 들어오면 막습니다. 키보드의 AI 글쓰기나 음성 입력처럼
+            글이 한꺼번에 들어오는 것을 거릅니다. 손으로 치는 학생은 걸리지 않습니다.</p></div>
+
+        <div class="lock"><div class="h"><div class="ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z"/>
+            <circle cx="12" cy="12" r="2.8"/></svg>
+          </div><div class="nm">화면 이탈 감지</div></div>
+          <p>평가 중 다른 앱·탭으로 가거나 화면을 나누면 알아채고 잠급니다.
+            횟수는 학생 이름 옆에 계속 보이고, 해제는 선생님 번호로 합니다.</p></div>
+
+        <div class="lock"><div class="h"><div class="ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3.5 10.5 12 4l8.5 6.5"/><path d="M5.5 12v7.5h13V12"/>
+            <path d="M10 19.5V14h4v5.5"/></svg>
+          </div><div class="nm">집에서는 저장되지 않습니다</div></div>
+          <p>수업 시간이 지나면 로그인도 서버 저장도 멈춥니다.
+            <b>과제형 수행평가 금지</b> 요건을 그대로 충족합니다.</p></div>
+
+        <div class="lock"><div class="h"><div class="ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="8" cy="12" r="4"/><path d="M12 12h9"/><path d="M17 12v3.5"/>
+            <path d="M20 12v2.5"/></svg>
+          </div><div class="nm">학번 도용 방지</div></div>
+          <p>학교 구글 계정으로 먼저 로그인하면 명렬표에서 본인을 찾아 줍니다.
+            한 학번은 한 계정에 고정되고, 거부된 시도는 모두 로그에 남습니다.</p></div>
+      </div>
+    </section>
+
+    <!-- ⑩ 교사 화면 ---------------------------------------------------- -->
+    <section class="pg" data-t="교사 화면" aria-label="교사 화면">
+      <div class="kick">교사 화면</div>
+      <h2 class="hd">학급 줄의 단추 하나로<br>수업이 돌아갑니다</h2>
+      <p class="lead">학생용과 <b>주소가 다릅니다.</b> 학생이 교사 화면 주소를 알아도
+        교사 계정이 아니면 들어가지 못합니다. 자리를 비우면 자동으로 잠깁니다.</p>
+      <div class="rule"></div>
+
+      <div class="tabs-demo">
+        <span class="on">수업 통제</span><span>제출 현황</span><span>발표 영상</span>
+        <span>동료 평가</span><span>명렬표</span><span>로그</span>
+      </div>
+
+      <div class="cols c2">
+        <div class="card">
+          <h3>수업 통제</h3>
+          <p>학급마다 한 줄. <b>[수업 시작]</b> 50분, <b>[제출 열기]</b> 25분,
+            바쁘면 <b>[수업+제출 함께 열기]</b> 하나로 끝냅니다.
+            공지를 적으면 그 학급 학생 화면 위에 띠로 붙습니다.</p>
+        </div>
+        <div class="card">
+          <h3>제출 현황</h3>
+          <p>누가 제출했고 누가 작성 중인지 학급별로 보입니다.
+            미제출 명단을 그대로 불러 수업을 정리합니다.</p>
+        </div>
+        <div class="card">
+          <h3>발표 영상</h3>
+          <p><b>[첫 번째부터 틀기]</b> → 한 편 보고 → <b>[다음 발표자 →]</b>.
+            교실 화면에 띄워 두고 단추만 누르면 됩니다.</p>
+        </div>
+        <div class="card">
+          <h3>명렬표 · 로그</h3>
+          <p>학번·이름·반·비밀번호를 붙여넣기 한 번으로 넣습니다.
+            거부된 로그인은 <code style="background:var(--card-3);border:1px solid var(--line-2);border-radius:5px;padding:1px 6px;font-size:.84em;color:#9DE8B8">NAME_MISMATCH</code>
+            처럼 까닭이 남아 무엇이 문제였는지 바로 압니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑪ 구조 --------------------------------------------------------- -->
+    <section class="pg" data-t="어떻게 만들어졌나" aria-label="어떻게 만들어졌나">
+      <div class="kick">구조</div>
+      <h2 class="hd">새로 산 것은 하나도 없습니다</h2>
+      <p class="lead">학교가 이미 쓰고 있는 것만으로 올렸습니다.
+        서버 비용도, 따로 가입할 서비스도 없습니다.</p>
+      <div class="rule"></div>
+
+      <div class="stack">
+        <div class="sbox">
+          <div class="tagn">화면</div>
+          <div><div class="nm">깃허브 페이지 (GitHub Pages)</div>
+            <div class="ds">학생용 <code>index.html</code> 과 교사용 <code>teacher.html</code> 을
+              서로 다른 주소로. 읽을거리와 디자인은 모두 이 안에 들어 있어 바깥 그림을 받아오지 않습니다 —
+              학교망에서 그림이 막혀 화면이 비는 일이 없습니다.</div></div>
+        </div>
+        <div class="down" aria-hidden="true">↓</div>
+        <div class="sbox">
+          <div class="tagn">문지기</div>
+          <div><div class="nm">구글 로그인 (@ai.jne.kr)</div>
+            <div class="ds">학교 계정만 들어옵니다. 로그인하면 명렬표에서 본인을 찾아 주기 때문에
+              학생은 비밀번호만 넣으면 됩니다 — 네 자리를 잘못 눌러 남의 학번으로 들어가는 사고를 막습니다.</div></div>
+        </div>
+        <div class="down" aria-hidden="true">↓</div>
+        <div class="sbox">
+          <div class="tagn">서버</div>
+          <div><div class="nm">구글 앱스 스크립트 (Apps Script)</div>
+            <div class="ds">열고 닫는 판단, 저장, 제출, 영상 받기를 모두 여기서 합니다.
+              무료이고, 학교 계정 안에서 돕니다.</div></div>
+        </div>
+        <div class="down" aria-hidden="true">↓</div>
+        <div class="sbox">
+          <div class="tagn">기록</div>
+          <div><div class="nm">구글 스프레드시트</div>
+            <div class="ds"><b>설정 · 제출 · 임시저장 · 명렬표 · 로그 · 동료평가</b> 여섯 시트.
+              제출 시트는 아홉 문항이 열로 펼쳐져 있어 열자마자 채점표입니다.</div></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <h3>고칠 곳은 <code style="background:var(--card-3);border:1px solid var(--line-2);border-radius:5px;padding:1px 6px;font-size:.84em;color:#9DE8B8">config.js</code> 세 줄뿐입니다</h3>
+        <p>서버 주소 · 구글 클라이언트 ID · 허용할 학교 도메인.
+          학생 화면과 교사 화면이 이 한 파일을 같이 쓰기 때문에,
+          주소가 바뀌어도 <b>한 곳만 고치면</b> 두 화면이 같이 바뀝니다.</p>
+      </div>
+    </section>
+
+    <!-- ⑫ 맺음 --------------------------------------------------------- -->
+    <section class="pg" data-t="맺음말" aria-label="맺음말">
+      <div class="end">
+        <div class="kick">맺음말</div>
+        <h2 class="big">연주자가 되지 않아도<br><span class="g">음악 곁에서</span><br>일할 수 있습니다</h2>
+        <p class="lead" style="margin-top:18px">아이들이 음악으로 할 수 있는 일을 하나라도 더 알고
+          교실을 나가는 것, 이 수업이 바라는 것은 그것 하나입니다.
+          메타데이터를 다루는 사람도, 악기를 고치는 사람도, 게임 소리를 설계하는 사람도
+          모두 음악으로 먹고삽니다.</p>
+
+        <div class="cols c3" style="margin-top:24px">
+          <div class="card">
+            <h3>가져다 쓰셔도 됩니다</h3>
+            <p>열두 분야 읽을거리와 아홉 문항은 학교에 맞게 고쳐 쓰시면 됩니다.
+              <code style="background:var(--card-3);border:1px solid var(--line-2);border-radius:5px;padding:1px 6px;font-size:.84em;color:#9DE8B8">industries.js</code> 와
+              <code style="background:var(--card-3);border:1px solid var(--line-2);border-radius:5px;padding:1px 6px;font-size:.84em;color:#9DE8B8">shared.js</code> 한 파일씩입니다.</p>
+          </div>
+          <div class="card">
+            <h3>설치 안내가 따로 있습니다</h3>
+            <p>클라이언트 ID 만들기부터 발표 영상 켜기까지 여덟 단계로,
+              단계마다 <b>[확인]</b> 이 붙어 있습니다.</p>
+          </div>
+          <div class="card">
+            <h3>궁금한 것이 있으면</h3>
+            <p>순천승평중학교 음악과로 연락 주시면 됩니다.
+              쓰시다 막힌 곳을 알려 주시면 고쳐 나가겠습니다.</p>
+          </div>
+        </div>
+
+        <div class="sign">
+          <div class="who">순천승평중학교 음악과</div>
+          <div class="ln">중학교 3학년 음악 · 생활화 영역 [9음03-02]</div>
+          <div class="ln">디지털미래음악연구회 (DFMR)</div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+  </main>
+
+  <!-- ===================== 아래쪽 넘김 바 ===================== -->
+  <nav class="bar" id="bar" aria-label="쪽 넘기기">
+    <button class="nav" id="prev" type="button" aria-label="이전 쪽">
+      <span class="ar" aria-hidden="true">←</span><span class="tx">이전</span></button>
+    <div class="bmid">
+      <div class="cnt" id="cnt"><b>1</b> / 12</div>
+      <div class="ttl" id="ttl">표지</div>
+    </div>
+    <button class="nav next" id="next" type="button" aria-label="다음 쪽">
+      <span class="tx">다음</span><span class="ar" aria-hidden="true">→</span></button>
+  </nav>
+
+</div>
+
+<script>
+/* ===========================================================================
+ *  열두 쪽을 옆으로 넘깁니다. 바깥에서 받아오는 것은 글꼴뿐입니다.
+ * ========================================================================= */
+(function () {
+  'use strict';
+
+  /* ---------- 1. 열두 분야 (학생용 industries.js 에서 가져온 목록) ---------- */
+  var ART = [
+    ['#1DB954','#0E6B32'], ['#E8734A','#8A3418'], ['#5B7CFA','#26307A'],
+    ['#F2C14E','#8A6416'], ['#48C9B0','#166352'], ['#B96BD8','#5B2478'],
+    ['#4FA8E8','#144E7A'], ['#D2795E','#78331F'], ['#8BC34A','#3F6318'],
+    ['#F06292','#8A2247'], ['#A0A8B4','#4A5058'], ['#00C2C7','#00595C']
+  ];
+  var FIELDS = [
+    ['01','음원 유통·스트리밍','Music Distribution & Streaming','완성된 음악을 세상 사람들이 들을 수 있는 곳으로 옮겨 놓는 일.'],
+    ['02','공연 기획·제작','Live Performance Production','음악이 사람들 앞에서 실제로 울리도록 판을 짜는 일.'],
+    ['03','음악 저작권 관리','Music Copyright Management','음악을 만든 사람의 권리를 지키고, 쓰인 만큼 값을 받아 나누어 주는 일.'],
+    ['04','음악 교육','Music Education','음악을 듣는 귀와 만드는 손을 다음 사람에게 건네는 일.'],
+    ['05','음악 치료','Music Therapy','음악을 도구 삼아 몸과 마음의 회복을 돕는 일.'],
+    ['06','영상음악','Music for Film & Media','화면에 흐르는 음악으로 관객이 무엇을 느낄지 조율하는 일.'],
+    ['07','게임 음악','Game Audio','플레이어가 무엇을 하느냐에 따라 달라지는 음악을 설계하는 일.'],
+    ['08','악기 제조·유통','Instrument Making & Distribution','소리를 내는 물건을 만들고, 고치고, 필요한 사람에게 전하는 일.'],
+    ['09','음향 엔지니어링','Audio Engineering','연주된 소리를 담고 다듬어 사람들이 듣게 될 형태로 만드는 일.'],
+    ['10','아티스트 매니지먼트','Artist Management','음악가가 음악에 집중할 수 있도록 나머지 모든 것을 맡는 일.'],
+    ['11','음악 저널리즘·평론','Music Journalism & Criticism','음악을 듣고 말과 글로 옮겨 사람들이 더 깊이 듣게 하는 일.'],
+    ['12','인공지능 음악 기술','AI Music Technology','컴퓨터가 음악을 만들고 다루도록 하는 기술을 개발하는 일.']
+  ];
+
+  /* ---------- 2. 아홉 문항 (학생용 shared.js 와 같은 차례) ---------- */
+  var QS = [
+    [1,'어떤 분야를 골랐나요?','열두 개 분야 가운데 하나를 고르세요','',''],
+    [2,'그 분야를 고른 이유는 무엇인가요?','한 문장이면 충분합니다','',''],
+    [3,'이 산업은 무엇을 하는 곳인가요?','무엇을 만들고 누구에게 전하는지','산업 조사','sur'],
+    [4,'이 산업에는 어떤 직업이 있나요?','두 가지 이상, 하는 일과 함께','산업 조사','sur'],
+    [5,'조사한 곳을 적어 주세요','서로 다른 곳 두 군데 이상','산업 조사','sur'],
+    [6,'이 산업에서 음악은 어떤 장면에 쓰이나요?','구체적인 장면을 떠올려','활용 가치','val'],
+    [7,'이 산업에 음악이 없다면 무엇이 사라질까요?','음악을 모두 지웠다고 상상해 보세요','활용 가치','val'],
+    [8,'이 분야와 나를 이어 주는 점이 있다면?','없으면 “아직 잘 모르겠다”도 답입니다','활용 가치','val'],
+    [9,'발표용 핵심 세 문장','① 무슨 분야인가 ② 음악이 어떻게 쓰이는가 ③ 왜 중요한가','발표 수행','pre']
+  ];
+
+  var esc = function (s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
+                    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  };
+
+  /* ---------- 3. 쪽 안쪽 그리기 ---------- */
+  document.getElementById('fields').innerHTML = FIELDS.map(function (f, i) {
+    return '<article class="fld">' +
+      '<div class="top" style="background:linear-gradient(150deg,' + ART[i][0] + ',' + ART[i][1] + ')">' +
+        '<span class="n">' + f[0] + '</span></div>' +
+      '<div class="bd"><div class="nm">' + esc(f[1]) + '</div>' +
+        '<div class="en">' + esc(f[2]) + '</div>' +
+        '<p class="one">' + esc(f[3]) + '</p></div></article>';
+  }).join('');
+
+  document.getElementById('mosaic').innerHTML = FIELDS.map(function (f, i) {
+    return '<div class="t" style="background:linear-gradient(150deg,' + ART[i][0] + ',' + ART[i][1] + ')">' +
+      '<span class="s">' + esc(f[1]) + '</span><span class="n">' + f[0] + '</span></div>';
+  }).join('') + '<div class="mosaic-cap">열두 분야 — 다음 쪽부터 하나씩 펼칩니다</div>';
+
+  document.getElementById('qs').innerHTML = QS.map(function (q) {
+    var cls = q[4] ? 'b-' + q[4] : 'b-non';
+    var key = (q[0] === 7) ? ' key' : '';
+    return '<div class="qrow' + key + '">' +
+      '<div class="qn">' + q[0] + '</div>' +
+      '<div><div class="qt">' + esc(q[1]) + '</div>' +
+        '<div class="qs2">' + esc(q[2]) + '</div></div>' +
+      '<span class="badge ' + cls + '">' + esc(q[3] || '고르기') + '</span></div>';
+  }).join('');
+
+  /* ---------- 4. 넘기기 ---------- */
+  var deck  = document.getElementById('deck');
+  var pages = [].slice.call(deck.querySelectorAll('.pg'));
+  var N     = pages.length;
+  var prev  = document.getElementById('prev');
+  var next  = document.getElementById('next');
+  var cnt   = document.getElementById('cnt');
+  var ttl   = document.getElementById('ttl');
+  var bar   = document.getElementById('bar');
+  var dots  = document.getElementById('dots');
+  var cur   = 0;
+
+  dots.innerHTML = pages.map(function (p, i) {
+    return '<button class="dot" type="button" data-i="' + i + '" ' +
+           'aria-label="' + esc(p.getAttribute('data-t')) + '">' + (i + 1) + '</button>';
+  }).join('');
+  var dotEls = [].slice.call(dots.querySelectorAll('.dot'));
+
+  function show(i) {
+    if (i < 0 || i >= N) { return; }
+    cur = i;
+    /* -0% 은 브라우저가 받지 않습니다. 숫자로 만들어 붙입니다. */
+    deck.style.transform = 'translateX(' + (-i * 100) + '%)';
+
+    pages.forEach(function (p, k) {
+      var on = (k === i);
+      p.classList.toggle('on', on);
+      if (on) {
+        p.removeAttribute('inert'); p.removeAttribute('aria-hidden'); p.scrollTop = 0;
+      } else {
+        p.setAttribute('inert', ''); p.setAttribute('aria-hidden', 'true');
+      }
+    });
+    dotEls.forEach(function (d, k) {
+      if (k === i) { d.setAttribute('aria-current', 'true'); }
+      else { d.removeAttribute('aria-current'); }
+    });
+
+    cnt.innerHTML = '<b>' + (i + 1) + '</b> / ' + N;
+    ttl.textContent = pages[i].getAttribute('data-t') || '';
+    prev.disabled = (i === 0);
+    next.disabled = (i === N - 1);
+    next.querySelector('.tx').textContent = (i === N - 2) ? '마지막' : '다음';
+    bar.style.setProperty('--pg', ((i + 1) / N * 100) + '%');
+
+    /* 고른 동그라미가 띠 밖으로 나가 있으면 보이는 자리로 끌어옵니다 */
+    var d = dotEls[i];
+    if (d && d.scrollIntoView) {
+      try { d.scrollIntoView({ block: 'nearest', inline: 'nearest' }); } catch (e) {}
+    }
+  }
+  function go(d) { show(cur + d); }
+
+  prev.addEventListener('click', function () { go(-1); });
+  next.addEventListener('click', function () { go(1); });
+  dots.addEventListener('click', function (e) {
+    var b = e.target.closest ? e.target.closest('.dot') : null;
+    if (b) { show(parseInt(b.getAttribute('data-i'), 10)); }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.altKey || e.ctrlKey || e.metaKey) { return; }
+    var t = e.target, tag = t && t.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') { return; }
+    if (t && t.isContentEditable) { return; }
+    if (e.key === 'ArrowRight' || e.key === 'PageDown') { e.preventDefault(); go(1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(-1); }
+    else if (e.key === 'Home') { e.preventDefault(); show(0); }
+    else if (e.key === 'End') { e.preventDefault(); show(N - 1); }
+  });
+
+  /* 손가락으로 좌우로 밀기 — 위아래로 민 것은 넘기지 않습니다 */
+  var sx = 0, sy = 0, skip = false;
+  var main = document.querySelector('main');
+  main.addEventListener('touchstart', function (e) {
+    var t = e.touches[0];
+    sx = t.clientX; sy = t.clientY;
+    skip = !!(e.target && e.target.closest &&
+              e.target.closest('a, button, input, textarea, select, .chipset'));
+  }, { passive: true });
+  main.addEventListener('touchend', function (e) {
+    if (skip) { return; }
+    var t = e.changedTouches[0];
+    var dx = t.clientX - sx, dy = t.clientY - sy;
+    if (Math.abs(dx) <= 60 || Math.abs(dx) <= Math.abs(dy) * 1.5) { return; }
+    go(dx < 0 ? 1 : -1);
+  }, { passive: true });
+
+  show(0);
+})();
+</script>
+</body>
+</html>
